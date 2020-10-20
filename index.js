@@ -19,7 +19,36 @@ app.get('/', (req, res) => {
   const response = [];
 
   for (const i of dataset) {
-    response.push(i.huisDieren);
+    let value = i.oogKleur.trim().toLowerCase();
+
+    // remove spaces
+    if (value.includes(' ')) {
+      value = value.replace(/ /g, '');
+    }
+
+    // convert rgb to hex
+    if (value.includes('rgb')) {
+      console.log(value);
+      value = value.replace(/\./g, ',');
+      value = value.replace(/[a-z\(\)]/g, '');
+      value = value.split(',', 3);
+
+      // make sure value is inside valid range
+      value.forEach((el) => el = Math.min(255, Math.max(0, el)));
+
+      let j = 0;
+      for (let i of value) {
+        i = (+i).toString(16);
+        i = i.length == 1 ? `0${i}` : `${i}`;
+        value[j] = i;
+        j++;
+      }
+
+      value = `#${value.join('')}`;
+      console.log(value);
+    }
+
+    response.push(value);
   }
 
   res.json(response);
