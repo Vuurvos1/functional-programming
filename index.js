@@ -1,4 +1,5 @@
 require('dotenv').config();
+const fs = require('fs');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -15,41 +16,46 @@ const server = app.listen(process.env.PORT || 3000, () => {
 
 urlencodedParser = bodyParser.urlencoded({extended: false});
 
-app.get('/', (req, res) => {
-  const response = [];
+function convertToHex(dataset, value) {
+  return dataset.map((val) => {
+    // normalize values
+    let color = val[value].trim().toLowerCase().replace(/ /g, '');
 
-  for (const i of dataset) {
-    let value = i.oogKleur.trim().toLowerCase();
-
-    // remove spaces
-    if (value.includes(' ')) {
-      value = value.replace(/ /g, '');
+    // test is hex value is already valid
+    if (color.match(/^#[a-f0-9]{6}$/i)) {
+      return color;
     }
 
     // convert rgb to hex
-    if (value.includes('rgb')) {
-      console.log(value);
-      value = value.replace(/\./g, ',');
-      value = value.replace(/[a-z\(\)]/g, '');
-      value = value.split(',', 3);
+    if (color.includes('rgb')) {
+      // remove unnecessary symbols
+      color = color.replace(/\./g, ',').replace(/[a-z\(\)]/g, '');
+      // convert values to array
+      color = color.split(',', 3);
 
       // make sure value is inside valid range
-      value.forEach((el) => el = Math.min(255, Math.max(0, el)));
+      color.map((el) => el = Math.min(255, Math.max(0, el)));
 
-      let j = 0;
-      for (let i of value) {
-        i = (+i).toString(16);
-        i = i.length == 1 ? `0${i}` : `${i}`;
-        value[j] = i;
-        j++;
+      // this has to be in a for loop for some reason
+      for (let i = 0; i < color.length; i++) {
+        color[i] = (+color[i]).toString(16).padStart(2, '0');
       }
 
-      value = `#${value.join('')}`;
-      console.log(value);
+      // create hex value
+      color = `#${color.join('')}`;
     }
+    return color;
+  });
+}
 
-    response.push(value);
-  }
+function convertToNumbers(dataset, value) {
+  return dataset.map((numb) => parseFloat(numb[value]));
+}
 
+app.get('/', (req, res) => {
+  const response = convertToHex(dataset, 'oogKleur');
+  console.log(response);
+
+  fs.writeFileSync('output/output.json', JSON.stringify(response));
   res.json(response);
 });
