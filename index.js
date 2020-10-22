@@ -16,12 +16,18 @@ const server = app.listen(process.env.PORT || 3000, () => {
 
 urlencodedParser = bodyParser.urlencoded({extended: false});
 
+/**
+ * Normalize all colors inside a dataset to hex colors
+ * @param {array} dataset - Array containing dataset columns
+ * @param {string} value - The name of the value you want from the dataset
+ * @return {array} array containing normalized hex colors
+ */
 function convertToHex(dataset, value) {
   return dataset.map((val) => {
     // normalize values
     let color = val[value].trim().toLowerCase().replace(/ /g, '');
 
-    // test is hex value is already valid
+    // test if hex is already valid
     if (color.match(/^#[a-f0-9]{6}$/i)) {
       return color;
     }
@@ -44,17 +50,47 @@ function convertToHex(dataset, value) {
       // create hex value
       color = `#${color.join('')}`;
     }
+
+    // convert named color to hex
+    const eyeColors = {
+      blauw: '#0000ff',
+      bruin: '#a52a2a',
+      grijs: '#808080',
+      groen: '#008000',
+      lichtblauw: '#add8e6',
+      rood: '#ff0000',
+    };
+
+    if (eyeColors[color]) {
+      return eyeColors[color];
+    }
+
+    // try prefixing hex values without #
+    if (color[0] != '#') {
+      console.log(color);
+    }
+
+    // check if hex is still valid after converting else undefined
+    if (!color.match(/^#[a-f0-9]{6}$/i)) {
+      return undefined;
+    }
+
     return color;
   });
 }
 
+/**
+ * Normalize numbers inside an array
+ * @param {array} dataset - Array containing dataset columns
+ * @param {string} value - The name of the value you want from the dataset
+ * @return {array} array containing normalized numbers
+ */
 function convertToNumbers(dataset, value) {
   return dataset.map((numb) => parseFloat(numb[value]));
 }
 
 app.get('/', (req, res) => {
   const response = convertToHex(dataset, 'oogKleur');
-  console.log(response);
 
   fs.writeFileSync('output/output.json', JSON.stringify(response));
   res.json(response);
