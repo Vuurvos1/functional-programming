@@ -3,6 +3,7 @@
 ## 📚 Table of contents
 
 - [🤔 About](#-About)
+- [🔍 Research question](#-Research-question)
 - [🔧 Installing the project](#-Installing-and-using-the-project)
   - [🚀 Launch the project](#-Launch-the-project)
   - [✏ Linting](#-Linting-the-project)
@@ -12,6 +13,23 @@
 ## 🤔 About
 
 HVA functional-programming
+
+## 🔍 Research question
+
+Where do I have the most chance to find a parking location?
+
+### Datasets needed
+
+- Location of parking spots
+  [GEO-Parkeer-Garages](https://opendata.rdw.nl/Parkeren/GEO-Parkeer-Garages/t5pc-eb34) (Parking garages locations)
+- Where are the most parking spots?
+  [Open-Data-Parkeren-SPECIFICATIES-PARKEERGEBIED](https://opendata.rdw.nl/Parkeren/Open-Data-Parkeren-SPECIFICATIES-PARKEERGEBIED/b3us-f26s) (capacity of parking garages)
+- How many parking spots are filled (preferably realtime)
+
+### Assumptions
+
+There is less chance to find a parking spot in the middle of a city than more on the outside
+You have a higher chance to find a parking spot throughout the week than in the weekend.
 
 ## 🔧 Installing and using the project
 

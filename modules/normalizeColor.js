@@ -70,6 +70,7 @@ const rgbToHex = (rgb) => {
   return `#${rgb.join('')}`;
 };
 
+
 module.exports = {
   convertToHex,
   rgbToHex,
