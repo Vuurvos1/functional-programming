@@ -36,9 +36,78 @@ const convertToNumbers = (dataset, column)=> {
   return dataset.map((value) => Number(value[column]));
 };
 
+/**
+ * Get Latatude and Longitude from dataset
+ * @param {array} dataset -
+ * Objects containing coordinates you want inside a location object
+ * @return {array} array containing coordinate from the dataset in geoJSON
+ */
+const getCoords = (dataset) => {
+  return dataset.map((value) => {
+    return [value.location.latitude, value.location.longitude];
+  } );
+};
+
+/**
+ * Convert polygon coordinate to a single coordinate
+ * @param {array} coords - Array containing coordinates of poligon
+ * @return {array} array containing center coordinate of the poligon
+ */
+const polygonCentroid = (coords) => {
+  let xSum = 0;
+  let ySum = 0;
+  let len = 0;
+
+  for (const coord of coords[0]) {
+    xSum += coord[0];
+    ySum += coord[1];
+    len++;
+  }
+
+  return [xSum / len, ySum / len];
+};
+
+/**
+ * Get locations coordinates from a given areaId
+ * @param {array} dataset - Array containing dataset columns
+ * @return {array} Object array containing areaId, Location and garage capacity
+ */
+const getLocationByAreaId = (dataset) => {
+  // refactor into:
+  // function (dataset1, dataset2, key)
+  // returns dataset 2 added to dataset 1 (no duplicate values)
+
+  const filePath = 'output/geoParkeerGarages.json';
+  const locationData = require(`./../${filePath}`);
+
+  // use reduce instead of map to prevent undefined values
+  return locationData.reduce((result, value) => {
+    // console.log(result, value);
+
+    const temp = dataset.find((element) => {
+      return element.areaid == value.areaid;
+    });
+
+    if (temp) {
+      const obj = {
+        areaid: value.areaid,
+        location: [value.location.latitude, value.location.longitude],
+        capacity: temp.capacity,
+      };
+
+      result.push(obj);
+    } else {
+      // error, no match was found
+    };
+    return result;
+  }, []);
+};
 
 module.exports = {
   getColumn,
   getColumns,
   convertToNumbers,
+  getCoords,
+  polygonCentroid,
+  getLocationByAreaId,
 };

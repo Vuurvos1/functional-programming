@@ -10,22 +10,21 @@ app.use(bodyParser.urlencoded({extended: false}));
 const getData = require('./modules/getData');
 const dataHelper = require('./modules/dataHelpers');
 
+// Open-Data-Parkeren-SPECIFICATIES-PARKEERGEBIED
+// parking garage capacity, areaId
+// https://opendata.rdw.nl/resource/b3us-f26s.json
+
+// GEO Parkeer Garages
+// location, areaId
+// https://opendata.rdw.nl/resource/t5pc-eb34.json
+
+
 const coords = [
   [[2, 2], [3, 5], [7, 6], [9, 4], [8, 1]],
 ];
 
-let xSum = 0;
-let ySum = 0;
-let len = 0;
+console.log(dataHelper.polygonCentroid(coords));
 
-for (const coord of coords[0]) {
-  xSum += coord[0];
-  ySum += coord[1];
-  len++;
-}
-
-console.log([xSum / len, ySum / len]);
-// > 5.8, 3.6
 
 /**
  * Main async code
@@ -35,19 +34,24 @@ async function mainCode() {
   // const data = await getData.fetchData(url);
   // fs.writeFileSync('output/output.json', JSON.stringify(data));
 
-  const filePath = 'output/output.json';
+  const filePath = 'output/specificatiesParkeergebied.json';
   const data = getData.getLocalData(filePath);
 
-  console.log(data[0]);
+  const u = dataHelper.getLocationByAreaId(data);
+  console.log(u[0], u[1], u[2]);
 
-  const arr = ['voertuigsoort', 'aantal_wielen'];
-  const x = dataHelper.getColumns(data, arr);
+  // const filePath = 'output/output.json';
+  // const data = getData.getLocalData(filePath);
 
-  fs.writeFileSync('output/voortuigWiel.json', JSON.stringify(x));
+  // console.log(data[0]);
+
+  // const arr = ['voertuigsoort', 'aantal_wielen'];
+  // const x = dataHelper.getColumns(data, arr);
+
+  // fs.writeFileSync('output/voortuigWiel.json', JSON.stringify(x));
 }
 
 mainCode();
-
 
 // Setup server
 app.listen(port, () => {
