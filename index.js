@@ -18,37 +18,35 @@ const dataHelper = require('./modules/dataHelpers');
 // location, areaId
 // https://opendata.rdw.nl/resource/t5pc-eb34.json
 
-
-const coords = [
-  [[2, 2], [3, 5], [7, 6], [9, 4], [8, 1]],
-];
-
-console.log(dataHelper.polygonCentroid(coords));
-
-
 /**
  * Main async code
  */
 async function mainCode() {
+  // code to fetch data from the api and save it to a file
+  // not using this while testing my code to prevent unesesairy pings to the api
   // const url = 'https://opendata.rdw.nl/resource/m9d7-ebf2.json';
   // const data = await getData.fetchData(url);
   // fs.writeFileSync('output/output.json', JSON.stringify(data));
 
-  const filePath = 'output/specificatiesParkeergebied.json';
-  const data = getData.getLocalData(filePath);
+  const filePathParkeergebied = 'output/specificatiesParkeergebied.json';
+  const Parkeergebied = getData.getLocalData(filePathParkeergebied);
 
-  const u = dataHelper.getLocationByAreaId(data);
+  // combine location and areaId
+  const u = dataHelper.getLocationByAreaId(Parkeergebied);
   console.log(u[0], u[1], u[2]);
 
-  // const filePath = 'output/output.json';
-  // const data = getData.getLocalData(filePath);
 
-  // console.log(data[0]);
+  const coords = [
+    [[2, 2], [3, 5], [7, 6], [9, 4], [8, 1]],
+  ];
 
-  // const arr = ['voertuigsoort', 'aantal_wielen'];
-  // const x = dataHelper.getColumns(data, arr);
+  console.log(dataHelper.polygonCentroid(coords));
 
-  // fs.writeFileSync('output/voortuigWiel.json', JSON.stringify(x));
+  const filePath = 'output/output.json';
+  const data = getData.getLocalData(filePath);
+  const arr = ['voertuigsoort', 'aantal_wielen'];
+  const columns = dataHelper.getColumns(data, arr);
+  fs.writeFileSync('output/voortuigWiel.json', JSON.stringify(columns));
 }
 
 mainCode();

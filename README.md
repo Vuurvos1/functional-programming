@@ -3,16 +3,28 @@
 ## 📚 Table of contents
 
 - [🤔 About](#-About)
+  - [🛠 Build with](#-Build-with)
 - [🔍 Research question](#-Research-question)
 - [🔧 Installing the project](#-Installing-and-using-the-project)
   - [🚀 Launch the project](#-Launch-the-project)
   - [✏ Linting](#-Linting-the-project)
 - [📝 Sources](#-Sources)
-- [🗺️ License](#-License)
+- [🗺️ License](#%EF%B8%8F-license)
 
 ## 🤔 About
 
-HVA functional-programming
+For the Volkskrant, we will be research/explore several datasets about a topic that journalist might write an article about. In this case, it is all about parking.
+
+For this article visualizations will be made using data from RDV, these datasets contain information about car parking and which vehicles park where inside the Netherlands. The data from these datasets will be visualized using the D3 JavaScript library.
+
+Check out the [wiki](https://github.com/vuurvos1/functional-programming/wiki) of this repository to find out more detailed information about the project.
+
+### 🛠 Build with
+
+- Node.js
+- D3.js
+- NPM packages
+- Lots of sweat
 
 ## 🔍 Research question
 
@@ -54,8 +66,10 @@ Don't want to format all your code by hand and don't have ESLint installed? No p
 
 ## 📝 Sources
 
-It is sort of empty here...
+[Chubby Racoon 🦝](https://github.com/rowinruizendaal) for brainstorming code and other ideas
+
+Elliott, E. (2019, July 2). Master the JavaScript Interview: What is Functional Programming? Medium. https://link.medium.com/vHX7Nzr8o7
 
 ## 🗺️ License
 
-Author: [Vuurvos1](https://github.com/Vuurvos1) , license by [MIT](https://github.com/Vuurvos1/functional-programming/blob/main/LICENSE)
+Author: [Vuurvos1](https://github.com/Vuurvos1), license by [MIT](https://github.com/Vuurvos1/functional-programming/blob/main/LICENSE)
