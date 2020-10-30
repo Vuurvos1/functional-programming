@@ -1,5 +1,5 @@
 /**
- * Normalize numbers inside an array
+ * Get a single column out of a dataset
  * @param {array} dataset - Array containing dataset
  * @param {string} column - The name of the column you want from the dataset
  * @return {array} array containing values from the selected column
@@ -9,7 +9,7 @@ const getColumn = (dataset, column) => {
 };
 
 /**
- * Normalize numbers inside an array
+ * Get multiple columns out of a dataset
  * @param {array} dataset - Array containing dataset
  * @param {array} columns - Array containing the names of the columns you want
  * @return {array} array containing values from the selected column
@@ -18,7 +18,7 @@ const getColumns = (dataset, columns) => {
   return dataset.map((value) => {
     const data = {};
 
-    for (let i =0; i < columns.length; i++) {
+    for (let i = 0; i < columns.length; i++) {
       data[columns[i]] = value[columns[i]];
     }
 
