@@ -32,21 +32,28 @@ async function mainCode() {
   const Parkeergebied = getData.getLocalData(filePathParkeergebied);
 
   // combine location and areaId
-  const u = dataHelper.getLocationByAreaId(Parkeergebied);
-  console.log(u[0], u[1], u[2]);
+  // const u = dataHelper.getLocationByAreaId(Parkeergebied);
+  // console.log(u[0], u[1], u[2]);
+
+  const filePathLocationData = 'output/geoParkeerGarages.json';
+  const geoParkeerGarages = getData.getLocalData(filePathLocationData);
+
+  const key = 'areaid';
+  const z = dataHelper.combineDataset(Parkeergebied, geoParkeerGarages, key);
+  console.log(z[0], z[1], z[2]);
+
+  // const coords = [
+  //   [[2, 2], [3, 5], [7, 6], [9, 4], [8, 1]],
+  // ];
+
+  // console.log(dataHelper.polygonCentroid(coords));
 
 
-  const coords = [
-    [[2, 2], [3, 5], [7, 6], [9, 4], [8, 1]],
-  ];
-
-  console.log(dataHelper.polygonCentroid(coords));
-
-  const filePath = 'output/output.json';
-  const data = getData.getLocalData(filePath);
-  const arr = ['voertuigsoort', 'aantal_wielen'];
-  const columns = dataHelper.getColumns(data, arr);
-  fs.writeFileSync('output/voortuigWiel.json', JSON.stringify(columns));
+  // const filePath = 'output/output.json';
+  // const data = getData.getLocalData(filePath);
+  // const arr = ['voertuigsoort', 'aantal_wielen'];
+  // const columns = dataHelper.getColumns(data, arr);
+  // fs.writeFileSync('output/voortuigWiel.json', JSON.stringify(columns));
 }
 
 mainCode();

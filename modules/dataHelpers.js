@@ -103,6 +103,42 @@ const getLocationByAreaId = (dataset) => {
   }, []);
 };
 
+
+/**
+ * Combine 2 datasets based on a certain key value
+ * @param {array} dataset1 - Array containing dataset
+ * @param {array} dataset2 - Array containing dataset
+ * @param {string} key - The value you want to link datasets with
+ * @return {array} A new object with the two combined datasets
+ */
+const combineDataset = (dataset1, dataset2, key) => {
+  const outputArr = [];
+
+  for (const i of dataset1) {
+    let newObj = {};
+
+    const dataMatch = dataset2.find((element) => {
+      return i[key] == element[key];
+    });
+
+    if (dataMatch) {
+      newObj = dataMatch;
+
+      for (const [key, value] of Object.entries(i)) {
+        if (!newObj[key]) {
+          newObj[key] = value;
+        }
+      }
+
+      outputArr.push(newObj);
+    } else {
+      // no match was found
+    }
+  }
+
+  return outputArr;
+};
+
 module.exports = {
   getColumn,
   getColumns,
@@ -110,4 +146,5 @@ module.exports = {
   getCoords,
   polygonCentroid,
   getLocationByAreaId,
+  combineDataset,
 };
