@@ -112,6 +112,7 @@ const getLocationByAreaId = (dataset) => {
  * @return {array} A new object with the two combined datasets
  */
 const combineDataset = (dataset1, dataset2, key) => {
+  // refactor to use map or reduce
   const outputArr = [];
 
   for (const i of dataset1) {
